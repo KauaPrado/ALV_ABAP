@@ -5,7 +5,9 @@
 *&---------------------------------------------------------------------*
 REPORT z_novoalv.
 
+
 TABLES: spfli, scarr, sflight.
+
 
 TYPES: BEGIN OF ty_estrutura,
          mandt      TYPE spfli-mandt,
@@ -43,6 +45,32 @@ DATA: it_estrutura TYPE TABLE OF ty_estrutura,
       lt_fieldcat  TYPE slis_t_fieldcat_alv,
       ls_fieldcat  TYPE slis_fieldcat_alv.
 
+
+
+TYPES: BEGIN OF ty_multiplica,
+         cidade     TYPE char25,
+         multiplica TYPE i,
+       END OF ty_multiplica.
+
+DATA: it_multiplica TYPE TABLE OF ty_multiplica,
+      wa_multiplica TYPE ty_multiplica.
+
+
+wa_multiplica-cidade = 'ROME'.
+wa_multiplica-multiplica = 1.
+APPEND wa_multiplica TO it_multiplica.
+
+wa_multiplica-cidade = 'TOKYO'.
+wa_multiplica-multiplica = 3.
+APPEND wa_multiplica TO it_multiplica.
+
+
+
+
+
+
+
+
 START-OF-SELECTION.
   SELECT-OPTIONS: countr FOR spfli-countryfr,
                   cityfrom FOR spfli-cityfrom,
@@ -62,6 +90,16 @@ START-OF-SELECTION.
     WHERE a~countryfr IN @countr
       AND a~cityfrom IN @cityfrom
       AND c~fldate IN @fldate.
+
+  LOOP AT it_estrutura INTO wa_estrutura.
+    READ TABLE it_multiplica INTO wa_multiplica WITH KEY cidade = wa_estrutura-cityfrom.
+    IF sy-subrc = 0.
+      wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
+      MODIFY it_estrutura FROM wa_estrutura.
+    ENDIF.
+
+  ENDLOOP.
+
 
   CLEAR ls_fieldcat.
   ls_fieldcat-fieldname = 'MANDT'.
