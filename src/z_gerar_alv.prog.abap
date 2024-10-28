@@ -48,26 +48,74 @@ DATA: it_estrutura TYPE TABLE OF ty_estrutura,
 
 
 TYPES: BEGIN OF ty_multiplica,
-         cidade     TYPE char25,
+         cidade     TYPE spfli-cityfrom,
          multiplica TYPE i,
        END OF ty_multiplica.
+
+
 
 DATA: it_multiplica TYPE TABLE OF ty_multiplica,
       wa_multiplica TYPE ty_multiplica.
 
 
-wa_multiplica-cidade = 'ROME'.
-wa_multiplica-multiplica = 1.
-APPEND wa_multiplica TO it_multiplica.
+PARAMETERS: p_city1 TYPE spfli-cityfrom,
+            p_mult1 TYPE i,
+            p_city2 TYPE spfli-cityfrom,
+            p_mult2 TYPE i,
+            p_city3 TYPE spfli-cityfrom,
+            p_mult3 TYPE i,
+            p_city4 TYPE spfli-cityfrom,
+            p_mult4   TYPE i,
+            p_city5 TYPE spfli-cityfrom,
+            p_mult5   TYPE i,
+            p_city6 TYPE spfli-cityfrom,
+            p_mult6   TYPE i.
 
-wa_multiplica-cidade = 'TOKYO'.
-wa_multiplica-multiplica = 3.
-APPEND wa_multiplica TO it_multiplica.
+
+
+start-of-selection.
+
+  IF p_city1 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city1.
+    wa_multiplica-multiplica = p_mult1.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
+
+  IF p_city2 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city2.
+    wa_multiplica-multiplica = p_mult2.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
+
+  IF p_city3 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city3.
+    wa_multiplica-multiplica = p_mult3.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
+
+IF p_city4 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city4.
+    wa_multiplica-multiplica = p_mult4.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
+
+IF p_city5 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city5.
+    wa_multiplica-multiplica = p_mult5.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
+
+  IF p_city6 IS NOT INITIAL.
+    wa_multiplica-cidade = p_city6.
+    wa_multiplica-multiplica = p_mult6.
+    APPEND wa_multiplica TO it_multiplica.
+  ENDIF.
 
 
 
-
-
+  LOOP AT it_multiplica INTO wa_multiplica.
+    WRITE: / 'Cidade:', wa_multiplica-cidade, 'Multiplicador:', wa_multiplica-multiplica.
+  ENDLOOP.
 
 
 
@@ -126,70 +174,70 @@ START-OF-SELECTION.
   ls_fieldcat-seltext_m = 'Cidade de origem'.
   APPEND ls_fieldcat TO lt_fieldcat.
 
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'AIRPFROM'.
-  ls_fieldcat-seltext_m = 'Aeroporto de origem'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'COUNTRYTO'.
-  ls_fieldcat-seltext_m = 'País de destino'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'CITYTO'.
-  ls_fieldcat-seltext_m = 'Cidade de destino'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'AIRPTO'.
-  ls_fieldcat-seltext_m = 'Aeroporto de destino'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'FLTIME'.
-  ls_fieldcat-seltext_m = 'Tempo de voo'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'DEPTIME'.
-  ls_fieldcat-seltext_m = 'Hora de partida'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'ARRTIME'.
-  ls_fieldcat-seltext_m = 'Hora de chegada'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'DISTANCE'.
-  ls_fieldcat-seltext_m = 'Distância'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'DISTID'.
-  ls_fieldcat-seltext_m = 'Unidade de medida '.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'FLTYPE'.
-  ls_fieldcat-seltext_m = 'Tipo de voo'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'PERIOD'.
-  ls_fieldcat-seltext_m = 'Período do voo'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'CARRNAME'.
-  ls_fieldcat-seltext_m = 'Nome da companhia aérea'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'FLDATE'.
-  ls_fieldcat-seltext_m = 'Data do voo'.
-  APPEND ls_fieldcat TO lt_fieldcat.
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'AIRPFROM'.
+*  ls_fieldcat-seltext_m = 'Aeroporto de origem'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'COUNTRYTO'.
+*  ls_fieldcat-seltext_m = 'País de destino'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'CITYTO'.
+*  ls_fieldcat-seltext_m = 'Cidade de destino'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'AIRPTO'.
+*  ls_fieldcat-seltext_m = 'Aeroporto de destino'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'FLTIME'.
+*  ls_fieldcat-seltext_m = 'Tempo de voo'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'DEPTIME'.
+*  ls_fieldcat-seltext_m = 'Hora de partida'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'ARRTIME'.
+*  ls_fieldcat-seltext_m = 'Hora de chegada'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'DISTANCE'.
+*  ls_fieldcat-seltext_m = 'Distância'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'DISTID'.
+*  ls_fieldcat-seltext_m = 'Unidade de medida '.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'FLTYPE'.
+*  ls_fieldcat-seltext_m = 'Tipo de voo'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'PERIOD'.
+*  ls_fieldcat-seltext_m = 'Período do voo'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'CARRNAME'.
+*  ls_fieldcat-seltext_m = 'Nome da companhia aérea'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'FLDATE'.
+*  ls_fieldcat-seltext_m = 'Data do voo'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
 
   CLEAR ls_fieldcat.
   ls_fieldcat-fieldname = 'PRICE'.
@@ -201,45 +249,45 @@ START-OF-SELECTION.
   ls_fieldcat-seltext_m = 'Moeda'.
   APPEND ls_fieldcat TO lt_fieldcat.
 
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'PLANETYPE'.
-  ls_fieldcat-seltext_m = 'Tipo de aeronave'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX'.
-  ls_fieldcat-seltext_m = 'Assentos máximos'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'PAYMENTSUM'.
-  ls_fieldcat-seltext_m = 'Soma dos pagamentos'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX_B'.
-  ls_fieldcat-seltext_m = 'Assentos máximos (econômica)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC_B'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados (econômica)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX_F'.
-  ls_fieldcat-seltext_m = 'Assentos máximos (primeira classe)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC_F'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados (primeira classe)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'PLANETYPE'.
+*  ls_fieldcat-seltext_m = 'Tipo de aeronave'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'PAYMENTSUM'.
+*  ls_fieldcat-seltext_m = 'Soma dos pagamentos'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX_B'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos (econômica)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC_B'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados (econômica)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX_F'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos (primeira classe)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC_F'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados (primeira classe)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
 
   CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
     EXPORTING
