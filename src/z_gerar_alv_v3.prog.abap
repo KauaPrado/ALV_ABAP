@@ -87,21 +87,16 @@ START-OF-SELECTION.
 
 
   LOOP AT it_estrutura INTO wa_estrutura.
-    LOOP AT it_multiplica INTO wa_multiplica.
-      IF sy-subrc = 0.
+    READ TABLE it_multiplica INTO wa_multiplica WITH KEY CIDADE = wa_estrutura-cityfrom.
+    IF sy-subrc = 0.
 
-        IF wa_multiplica-cidade = wa_estrutura-cityfrom.
-
-          wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
-          MODIFY it_estrutura FROM wa_estrutura.
-        ELSE.
+      wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
+      MODIFY it_estrutura FROM wa_estrutura.
 
 
-        ENDIF.
+    ENDIF.
 
-      ENDIF.
 
-    ENDLOOP.
   ENDLOOP.
 
 
