@@ -87,15 +87,13 @@ START-OF-SELECTION.
 
 
   LOOP AT it_estrutura INTO wa_estrutura.
-    READ TABLE it_multiplica INTO wa_multiplica WITH KEY CIDADE = wa_estrutura-cityfrom.
+    READ TABLE it_multiplica INTO wa_multiplica WITH KEY cidade = wa_estrutura-cityfrom.
     IF sy-subrc = 0.
 
       wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
       MODIFY it_estrutura FROM wa_estrutura.
 
-
     ENDIF.
-
 
   ENDLOOP.
 
@@ -196,50 +194,50 @@ START-OF-SELECTION.
   ls_fieldcat-seltext_m = 'Preço'.
   APPEND ls_fieldcat TO lt_fieldcat.
 
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'CURRENCY'.
-  ls_fieldcat-seltext_m = 'Moeda'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'PLANETYPE'.
-  ls_fieldcat-seltext_m = 'Tipo de aeronave'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX'.
-  ls_fieldcat-seltext_m = 'Assentos máximos'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'PAYMENTSUM'.
-  ls_fieldcat-seltext_m = 'Soma dos pagamentos'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX_B'.
-  ls_fieldcat-seltext_m = 'Assentos máximos (econômica)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC_B'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados (econômica)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSMAX_F'.
-  ls_fieldcat-seltext_m = 'Assentos máximos (primeira classe)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
-
-  CLEAR ls_fieldcat.
-  ls_fieldcat-fieldname = 'SEATSOCC_F'.
-  ls_fieldcat-seltext_m = 'Assentos ocupados (primeira classe)'.
-  APPEND ls_fieldcat TO lt_fieldcat.
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'CURRENCY'.
+*  ls_fieldcat-seltext_m = 'Moeda'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'PLANETYPE'.
+*  ls_fieldcat-seltext_m = 'Tipo de aeronave'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'PAYMENTSUM'.
+*  ls_fieldcat-seltext_m = 'Soma dos pagamentos'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX_B'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos (econômica)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC_B'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados (econômica)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSMAX_F'.
+*  ls_fieldcat-seltext_m = 'Assentos máximos (primeira classe)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
+*
+*  CLEAR ls_fieldcat.
+*  ls_fieldcat-fieldname = 'SEATSOCC_F'.
+*  ls_fieldcat-seltext_m = 'Assentos ocupados (primeira classe)'.
+*  APPEND ls_fieldcat TO lt_fieldcat.
 
   CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
     EXPORTING
