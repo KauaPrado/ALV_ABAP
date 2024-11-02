@@ -9,35 +9,41 @@ REPORT z_gerar_alv_v3.
 
 TABLES: spfli, scarr, sflight, zmulti.
 
+SELECT-OPTIONS: countr FOR spfli-countryfr,
+                cityfrom FOR spfli-cityfrom,
+                fldate   FOR sflight-fldate.
+
+
 TYPES: BEGIN OF ty_estrutura,
-         mandt      TYPE spfli-mandt,
-         carrid     TYPE spfli-carrid,
-         connid     TYPE spfli-connid,
-         countryfr  TYPE spfli-countryfr,
-         cityfrom   TYPE spfli-cityfrom,
-         airpfrom   TYPE spfli-airpfrom,
-         countryto  TYPE spfli-countryto,
-         cityto     TYPE spfli-cityto,
-         airpto     TYPE spfli-airpto,
-         fltime     TYPE spfli-fltime,
-         deptime    TYPE spfli-deptime,
-         arrtime    TYPE spfli-arrtime,
-         distance   TYPE spfli-distance,
-         distid     TYPE spfli-distid,
-         fltype     TYPE spfli-fltype,
-         period     TYPE spfli-period,
-         carrname   TYPE scarr-carrname,
-         fldate     TYPE sflight-fldate,
-         price      TYPE sflight-price,
-         currency   TYPE sflight-currency,
-         planetype  TYPE sflight-planetype,
-         seatsmax   TYPE sflight-seatsmax,
-         seatsocc   TYPE sflight-seatsocc,
-         paymentsum TYPE sflight-paymentsum,
-         seatsmax_b TYPE sflight-seatsmax_b,
-         seatsocc_b TYPE sflight-seatsocc_b,
-         seatsmax_f TYPE sflight-seatsmax_f,
-         seatsocc_f TYPE sflight-seatsocc_f,
+         mandt        TYPE spfli-mandt,
+         carrid       TYPE spfli-carrid,
+         connid       TYPE spfli-connid,
+         countryfr    TYPE spfli-countryfr,
+         cityfrom     TYPE spfli-cityfrom,
+         airpfrom     TYPE spfli-airpfrom,
+         countryto    TYPE spfli-countryto,
+         cityto       TYPE spfli-cityto,
+         airpto       TYPE spfli-airpto,
+         fltime       TYPE spfli-fltime,
+         deptime      TYPE spfli-deptime,
+         arrtime      TYPE spfli-arrtime,
+         distance     TYPE spfli-distance,
+         distid       TYPE spfli-distid,
+         fltype       TYPE spfli-fltype,
+         period       TYPE spfli-period,
+         carrname     TYPE scarr-carrname,
+         fldate       TYPE sflight-fldate,
+         price        TYPE sflight-price,
+         currency     TYPE sflight-currency,
+         planetype    TYPE sflight-planetype,
+         seatsmax     TYPE sflight-seatsmax,
+         seatsocc     TYPE sflight-seatsocc,
+         paymentsum   TYPE sflight-paymentsum,
+         seatsmax_b   TYPE sflight-seatsmax_b,
+         seatsocc_b   TYPE sflight-seatsocc_b,
+         seatsmax_f   TYPE sflight-seatsmax_f,
+         seatsocc_f   TYPE sflight-seatsocc_f,
+         multiplicado TYPE char1,
        END OF ty_estrutura.
 
 DATA: it_estrutura TYPE TABLE OF ty_estrutura,
@@ -58,17 +64,14 @@ DATA: it_multiplica TYPE TABLE OF ty_multiplica,
 
 
 
+FORM selecaodedados.
 
-START-OF-SELECTION.
   SELECT * FROM zmulti INTO TABLE it_multiplica.
 
 
 
 
-START-OF-SELECTION.
-  SELECT-OPTIONS: countr FOR spfli-countryfr,
-                  cityfrom FOR spfli-cityfrom,
-                  fldate   FOR sflight-fldate.
+
 
   SELECT a~mandt, a~carrid, a~connid, a~countryfr, a~cityfrom,
          a~airpfrom, a~countryto, a~cityto, a~airpto,
@@ -85,20 +88,24 @@ START-OF-SELECTION.
       AND a~cityfrom IN @cityfrom
       AND c~fldate IN @fldate.
 
+ENDFORM.
 
+FORM processamentodedados.
   LOOP AT it_estrutura INTO wa_estrutura.
     READ TABLE it_multiplica INTO wa_multiplica WITH KEY cidade = wa_estrutura-cityfrom.
     IF sy-subrc = 0.
 
       wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
+      wa_estrutura-multiplicado ='x'.
       MODIFY it_estrutura FROM wa_estrutura.
 
     ENDIF.
 
   ENDLOOP.
 
+ENDFORM.
 
-
+FORM montagemdoalv.
   CLEAR ls_fieldcat.
   ls_fieldcat-fieldname = 'MANDT'.
   ls_fieldcat-seltext_m = 'Cliente'.
@@ -239,6 +246,11 @@ START-OF-SELECTION.
 *  ls_fieldcat-seltext_m = 'Assentos ocupados (primeira classe)'.
 *  APPEND ls_fieldcat TO lt_fieldcat.
 
+  CLEAR ls_fieldcat.
+  ls_fieldcat-fieldname = 'MULTIPLICADO'.
+  ls_fieldcat-seltext_m = 'MULTIPLICADO'.
+  APPEND ls_fieldcat TO lt_fieldcat.
+
   CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
     EXPORTING
       it_fieldcat = lt_fieldcat
@@ -246,3 +258,13 @@ START-OF-SELECTION.
       t_outtab    = it_estrutura
     EXCEPTIONS
       OTHERS      = 1.
+
+ENDFORM.
+START-OF-SELECTION.
+PERFORM selecaodedados.
+
+
+
+  PERFORM processamentodedados.
+
+  PERFORM montagemdoalv.
