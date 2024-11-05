@@ -7,11 +7,10 @@ REPORT z_gerar_alv_v3.
 
 
 
-TABLES: spfli, scarr, sflight, zmulti.
 
-SELECT-OPTIONS: countr FOR spfli-countryfr,
-                cityfrom FOR spfli-cityfrom,
-                fldate   FOR sflight-fldate.
+
+*TABLES: spfli, sflight.
+
 
 
 TYPES: BEGIN OF ty_estrutura,
@@ -52,24 +51,36 @@ DATA: it_estrutura TYPE TABLE OF ty_estrutura,
       ls_fieldcat  TYPE slis_fieldcat_alv.
 
 
-TYPES: BEGIN OF ty_multiplica,
-         cidade     TYPE char40,
-         multiplica TYPE i,
-       END OF ty_multiplica.
+
+
+DATA wa_spfli TYPE spfli.
+
+DATA wa_sflight TYPE sflight.
+
+
+DATA:
+       it_multiplica TYPE TABLE OF zmulti,
+      wa_multiplica TYPE zmulti.
+
+
+SELECT-OPTIONS: countr FOR wa_spfli-countryfr,
+                cityfrom FOR wa_spfli-cityfrom,
+                fldate   FOR wa_sflight-fldate.
+
+START-OF-SELECTION.
+  PERFORM selecaodedados.
 
 
 
-DATA: it_multiplica TYPE TABLE OF ty_multiplica,
-      wa_multiplica TYPE ty_multiplica.
+  PERFORM processamentodedados.
+
+  PERFORM montagemdoalv.
 
 
 
 FORM selecaodedados.
 
   SELECT * FROM zmulti INTO TABLE it_multiplica.
-
-
-
 
 
 
@@ -260,11 +271,3 @@ FORM montagemdoalv.
       OTHERS      = 1.
 
 ENDFORM.
-START-OF-SELECTION.
-PERFORM selecaodedados.
-
-
-
-  PERFORM processamentodedados.
-
-  PERFORM montagemdoalv.
