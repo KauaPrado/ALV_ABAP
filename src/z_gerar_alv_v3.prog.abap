@@ -37,6 +37,8 @@ TYPES: BEGIN OF ty_estrutura,
          seatsmax_f   TYPE sflight-seatsmax_f,
          seatsocc_f   TYPE sflight-seatsocc_f,
          multiplicado TYPE char1,
+         apt_origem   TYPE sairport-name,
+         apt_destino  TYPE sairport-name,
        END OF ty_estrutura.
 
 DATA: it_estrutura TYPE TABLE OF ty_estrutura,
@@ -94,6 +96,18 @@ ENDFORM.
 
 FORM zf_processa_dados.
   LOOP AT it_estrutura INTO wa_estrutura.
+
+    CALL FUNCTION 'ZF_AEROPORTO'
+      EXPORTING
+        airpfrom    = wa_estrutura-airpfrom
+        airpto      = wa_estrutura-airpfrom
+      IMPORTING
+        apt_origem  = wa_estrutura-apt_origem
+        apt_destino = wa_estrutura-apt_destino.
+
+
+
+
     READ TABLE it_multiplica INTO wa_multiplica WITH KEY cidade = wa_estrutura-cityfrom.
     IF sy-subrc = 0.
 
@@ -115,7 +129,7 @@ FORM zf_monta_fieldcat USING i_fieldname TYPE c
 ENDFORM.
 FORM zf_monta_alv.
 
-   PERFORM zf_monta_fieldcat USING 'MANDT' 'Cliente'.
+  PERFORM zf_monta_fieldcat USING 'MANDT' 'Cliente'.
   PERFORM zf_monta_fieldcat USING 'CARRID' 'ID da companhia áerea'.
   PERFORM zf_monta_fieldcat USING 'CONNID' 'ID do voo'.
   PERFORM zf_monta_fieldcat USING 'COUNTRYFR' 'País de origem'.
@@ -144,6 +158,8 @@ FORM zf_monta_alv.
   PERFORM zf_monta_fieldcat USING 'SEATSMAX_F' 'Assentos máximos (primeira classe)'.
   PERFORM zf_monta_fieldcat USING 'SEATSOCC_F' 'Assentos ocupados (primeira classe)'.
   PERFORM zf_monta_fieldcat USING 'MULTIPLICADO' 'MULTIPLICADO'.
+  PERFORM zf_monta_fieldcat USING 'APT_ORIGEM' 'Aeroporto de origem'.
+  PERFORM zf_monta_fieldcat USING 'APT_DESTINO' 'Aeroporto de destino'.
 
   CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
     EXPORTING
