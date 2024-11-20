@@ -59,19 +59,30 @@ DATA wa_sflight TYPE sflight.
 DATA: it_multiplica TYPE TABLE OF zmulti,
       wa_multiplica TYPE zmulti.
 
+PARAMETERS: p1 RADIOBUTTON GROUP exec DEFAULT 'X',
+            p2 RADIOBUTTON GROUP EXEC.
+
+
+
 
 SELECT-OPTIONS: countr FOR wa_spfli-countryfr,
                 cityfrom FOR wa_spfli-cityfrom,
                 fldate   FOR wa_sflight-fldate.
 
+
 START-OF-SELECTION.
-  PERFORM zf_seleciona_dados.
 
-  PERFORM zf_processa_dados.
+  IF p1 = 'X'.
+    PERFORM zf_seleciona_dados.
+
+    PERFORM zf_processa_dados.
+
+    PERFORM zf_monta_alv.
+  ELSEIF p2 = 'X'.
+    WRITE: / 'Opção 2 foi selecionada.'.
+  ENDIF.
 
 
-
-  PERFORM zf_monta_alv.
 
 FORM zf_seleciona_dados.
 
@@ -99,11 +110,15 @@ FORM zf_processa_dados.
 
     CALL FUNCTION 'ZF_AEROPORTO'
       EXPORTING
-        airpfrom    = wa_estrutura-airpfrom
-        airpto      = wa_estrutura-airpfrom
+        id_airp   = wa_estrutura-airpfrom
       IMPORTING
-        apt_origem  = wa_estrutura-apt_origem
-        apt_destino = wa_estrutura-apt_destino.
+        nome_airp = wa_estrutura-apt_origem.
+
+    CALL FUNCTION 'ZF_AEROPORTO'
+      EXPORTING
+        id_airp   = wa_estrutura-airpto
+      IMPORTING
+        nome_airp = wa_estrutura-apt_destino.
 
 
 
@@ -113,9 +128,9 @@ FORM zf_processa_dados.
 
       wa_estrutura-price = wa_estrutura-price * wa_multiplica-multiplica.
       wa_estrutura-multiplicado ='x'.
-      MODIFY it_estrutura FROM wa_estrutura.
 
     ENDIF.
+    MODIFY it_estrutura FROM wa_estrutura.
   ENDLOOP.
 ENDFORM.
 

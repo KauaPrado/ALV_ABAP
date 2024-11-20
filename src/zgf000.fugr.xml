@@ -13,48 +13,28 @@
      <SHORT_TEXT>seleciona o aeroporto</SHORT_TEXT>
      <IMPORT>
       <RSIMP>
-       <PARAMETER>AIRPFROM</PARAMETER>
+       <PARAMETER>ID_AIRP</PARAMETER>
        <REFERENCE>X</REFERENCE>
-       <TYP>SPFLI-AIRPFROM</TYP>
-      </RSIMP>
-      <RSIMP>
-       <PARAMETER>AIRPTO</PARAMETER>
-       <REFERENCE>X</REFERENCE>
-       <TYP>SPFLI-AIRPTO</TYP>
+       <TYP>CHAR3</TYP>
       </RSIMP>
      </IMPORT>
      <EXPORT>
       <RSEXP>
-       <PARAMETER>APT_ORIGEM</PARAMETER>
-       <REFERENCE>X</REFERENCE>
-       <TYP>SAIRPORT-NAME</TYP>
-      </RSEXP>
-      <RSEXP>
-       <PARAMETER>APT_DESTINO</PARAMETER>
+       <PARAMETER>NOME_AIRP</PARAMETER>
        <REFERENCE>X</REFERENCE>
        <TYP>SAIRPORT-NAME</TYP>
       </RSEXP>
      </EXPORT>
      <DOCUMENTATION>
       <RSFDO>
-       <PARAMETER>AIRPFROM</PARAMETER>
+       <PARAMETER>ID_AIRP</PARAMETER>
        <KIND>P</KIND>
        <STEXT>3-Byte field</STEXT>
       </RSFDO>
       <RSFDO>
-       <PARAMETER>AIRPTO</PARAMETER>
-       <KIND>P</KIND>
-       <STEXT>3-Byte field</STEXT>
-      </RSFDO>
-      <RSFDO>
-       <PARAMETER>APT_ORIGEM</PARAMETER>
+       <PARAMETER>NOME_AIRP</PARAMETER>
        <KIND>P</KIND>
        <STEXT>User field for cluster PC (national)</STEXT>
-      </RSFDO>
-      <RSFDO>
-       <PARAMETER>APT_DESTINO</PARAMETER>
-       <KIND>P</KIND>
-       <STEXT>Airport name</STEXT>
       </RSFDO>
      </DOCUMENTATION>
     </item>

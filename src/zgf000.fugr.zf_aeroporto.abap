@@ -2,25 +2,15 @@ FUNCTION zf_aeroporto.
 *"----------------------------------------------------------------------
 *"*"Local Interface:
 *"  IMPORTING
-*"     REFERENCE(AIRPFROM) TYPE  SPFLI-AIRPFROM
-*"     REFERENCE(AIRPTO) TYPE  SPFLI-AIRPTO
+*"     REFERENCE(ID_AIRP) TYPE  CHAR3
 *"  EXPORTING
-*"     REFERENCE(APT_ORIGEM) TYPE  SAIRPORT-NAME
-*"     REFERENCE(APT_DESTINO) TYPE  SAIRPORT-NAME
+*"     REFERENCE(NOME_AIRP) TYPE  SAIRPORT-NAME
 *"----------------------------------------------------------------------
 
-   SELECT single name
-   INTO apt_origem
-     FROM sairport
-     WHERE id = airpfrom.
-
-
-SELECT single name
-   INTO apt_destino
-     FROM sairport
-     WHERE id = airpfrom.
-
-
+  SELECT SINGLE name
+  INTO nome_airp
+    FROM sairport
+    WHERE id = id_airp.
 
 
 ENDFUNCTION.
