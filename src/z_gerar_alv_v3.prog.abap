@@ -49,8 +49,11 @@ DATA: it_fieldcat TYPE slis_t_fieldcat_alv,
       wa_fieldcat TYPE slis_fieldcat_alv.
 
 
-
-
+DATA: go_alv        TYPE REF TO cl_salv_table.
+DATA: lr_columns    TYPE REF TO cl_salv_columns_table.
+DATA: lr_column     TYPE REF TO cl_salv_column_table.
+DATA: lr_functions  TYPE REF TO cl_salv_functions_list.
+DATA: gr_display    TYPE REF TO cl_salv_display_settings.
 DATA wa_spfli TYPE spfli.
 
 DATA wa_sflight TYPE sflight.
@@ -59,27 +62,33 @@ DATA wa_sflight TYPE sflight.
 DATA: it_multiplica TYPE TABLE OF zmulti,
       wa_multiplica TYPE zmulti.
 
-PARAMETERS: p1 RADIOBUTTON GROUP exec DEFAULT 'X',
-            p2 RADIOBUTTON GROUP EXEC.
+PARAMETERS: p1 RADIOBUTTON GROUP grp1 DEFAULT 'X',
+            p2 RADIOBUTTON GROUP grp1.
+
+SELECTION-SCREEN COMMENT /1(20) text_001 FOR FIELD p1.
+SELECTION-SCREEN COMMENT /1(20) text_002 FOR FIELD p2.
+
+INITIALIZATION.
+  text_001 = 'p1 - Fluxo Origina'.
+  text_002 = '02- Fluxo OO'.
 
 
-
-
-SELECT-OPTIONS: countr FOR wa_spfli-countryfr,
-                cityfrom FOR wa_spfli-cityfrom,
-                fldate   FOR wa_sflight-fldate.
+  SELECT-OPTIONS: countr FOR wa_spfli-countryfr,
+                  cityfrom FOR wa_spfli-cityfrom,
+                  fldate   FOR wa_sflight-fldate.
 
 
 START-OF-SELECTION.
 
-  IF p1 = 'X'.
-    PERFORM zf_seleciona_dados.
+PERFORM zf_seleciona_dados.
 
     PERFORM zf_processa_dados.
 
-    PERFORM zf_monta_alv.
+  IF p1 = 'X'.
+
+    PERFORM zf_monta_alv_original.
   ELSEIF p2 = 'X'.
-    WRITE: / 'Opção 2 foi selecionada.'.
+    PERFORM zf_monta_alv_oo.
   ENDIF.
 
 
@@ -142,7 +151,7 @@ FORM zf_monta_fieldcat USING i_fieldname TYPE c
   APPEND wa_fieldcat TO it_fieldcat.
 
 ENDFORM.
-FORM zf_monta_alv.
+FORM zf_monta_alv_original.
 
   PERFORM zf_monta_fieldcat USING 'MANDT' 'Cliente'.
   PERFORM zf_monta_fieldcat USING 'CARRID' 'ID da companhia áerea'.
@@ -183,5 +192,20 @@ FORM zf_monta_alv.
       t_outtab    = it_estrutura
     EXCEPTIONS
       OTHERS      = 1.
+ENDFORM.
+FORM zf_monta_alv_oo.
+
+  TRY.
+  cl_salv_table=>factory(
+    IMPORTING
+      r_salv_table = go_alv
+    CHANGING
+      t_table      = it_estrutura ). "Internal Table
+
+CATCH cx_salv_msg.
+ENDTRY.
+
+
+go_alv->display( ).
 
 ENDFORM.
