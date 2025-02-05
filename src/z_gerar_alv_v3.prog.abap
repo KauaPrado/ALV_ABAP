@@ -1,4 +1,4 @@
-*&---------------------------------------------------------------------*
+
 *& Report Z_GERAR_ALV_V3
 *&---------------------------------------------------------------------*
 *&
@@ -54,6 +54,11 @@ DATA: lr_columns    TYPE REF TO cl_salv_columns_table.
 DATA: lr_column     TYPE REF TO cl_salv_column_table.
 DATA: lr_functions  TYPE REF TO cl_salv_functions_list.
 DATA: gr_display    TYPE REF TO cl_salv_display_settings.
+DATA cx_salv      TYPE REF TO cx_salv_msg.
+DATA cx_not_found TYPE REF TO cx_salv_not_found.
+data gr_msg  type string.
+
+
 DATA wa_spfli TYPE spfli.
 
 DATA wa_sflight TYPE sflight.
@@ -70,7 +75,7 @@ SELECTION-SCREEN COMMENT /1(20) text_002 FOR FIELD p2.
 
 INITIALIZATION.
   text_001 = 'p1 - Fluxo Origina'.
-  text_002 = '02- Fluxo OO'.
+  text_002 = '02- Fluxo OO'.
 
 
   SELECT-OPTIONS: countr FOR wa_spfli-countryfr,
@@ -80,9 +85,9 @@ INITIALIZATION.
 
 START-OF-SELECTION.
 
-PERFORM zf_seleciona_dados.
+  PERFORM zf_seleciona_dados.
 
-    PERFORM zf_processa_dados.
+  PERFORM zf_processa_dados.
 
   IF p1 = 'X'.
 
@@ -196,16 +201,90 @@ ENDFORM.
 FORM zf_monta_alv_oo.
 
   TRY.
-  cl_salv_table=>factory(
-    IMPORTING
-      r_salv_table = go_alv
-    CHANGING
-      t_table      = it_estrutura ). "Internal Table
+      cl_salv_table=>factory(
+        IMPORTING
+          r_salv_table = go_alv
+        CHANGING
+          t_table      = it_estrutura ). "Internal Table
 
-CATCH cx_salv_msg.
-ENDTRY.
+    CATCH cx_salv_msg.
+      gr_msg = cx_salv->get_text( ).
+      message gr_msg type 'E'.
+  ENDTRY.
 
+  TRY.
+      lr_columns ?= go_alv->get_columns( ).
+      lr_column  ?= lr_columns->get_column( 'MANDT' ).
+      lr_column->set_long_text( 'MANDANTE' ).
 
-go_alv->display( ).
+      lr_column  ?= lr_columns->get_column('CONNID').
+      lr_column->set_long_text( 'ID do voo' ).
+      lr_column  ?= lr_columns->get_column( 'COUNTRYFR' ).
+      lr_column->set_long_text( 'País de origem' ).
+      lr_column  ?= lr_columns->get_column( 'CITYFROM' ).
+      lr_column->set_long_text( 'Cidade de origem' ).
+      lr_column  ?= lr_columns->get_column( 'AIRPFROM' ).
+      lr_column->set_long_text( 'Aeroporto de origem' ).
+      lr_column  ?= lr_columns->get_column( 'COUNTRYTO' ).
+      lr_column->set_long_text( 'País de destino' ).
+      lr_column  ?= lr_columns->get_column( 'CITYTO' ).
+      lr_column->set_long_text( 'Cidade de destino' ).
+      lr_column  ?= lr_columns->get_column( 'AIRPTO' ).
+      lr_column->set_long_text( 'Aeroporto de destino' ).
+      lr_column  ?= lr_columns->get_column( 'FLTIME' ).
+      lr_column->set_long_text( 'Tempo de voo' ).
+      lr_column  ?= lr_columns->get_column( 'DEPTIME' ).
+      lr_column->set_long_text( 'Hora de partida' ).
+      lr_column  ?= lr_columns->get_column( 'ARRTIME' ).
+      lr_column->set_long_text( 'Hora de chegada' ).
+      lr_column  ?= lr_columns->get_column( 'DISTANCE' ).
+      lr_column->set_long_text( 'Distância' ).
+      lr_column  ?= lr_columns->get_column( 'DISTID' ).
+      lr_column->set_long_text( 'Unidade de medida' ).
+      lr_column  ?= lr_columns->get_column( 'FLTYPE' ).
+      lr_column->set_long_text( 'Tipo de voo' ).
+      lr_column  ?= lr_columns->get_column( 'PERIOD' ).
+      lr_column->set_long_text( 'Período do voo' ).
+      lr_column  ?= lr_columns->get_column( 'CARRNAME' ).
+      lr_column->set_long_text( 'Nome da companhia aérea' ).
+      lr_column  ?= lr_columns->get_column( 'FLDATE' ).
+      lr_column->set_long_text( 'Data do voo' ).
+      lr_column  ?= lr_columns->get_column( 'PRICE' ).
+      lr_column->set_long_text( 'Preco' ).
+      lr_column  ?= lr_columns->get_column( 'CURRENCY' ).
+      lr_column->set_long_text( 'Moeda' ).
+      lr_column  ?= lr_columns->get_column( 'PLANETYPE' ).
+      lr_column->set_long_text( 'Tipo de aeronave' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSMAX' ).
+      lr_column->set_long_text( 'Assentos máximos' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSOCC' ).
+      lr_column->set_long_text( 'Assentos ocupados' ).
+      lr_column  ?= lr_columns->get_column( 'PAYMENTSUM' ).
+      lr_column->set_long_text( 'Soma dos pagamentos' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSMAX_B' ).
+*      lr_column->set_long_text( 'Assentos máximos (econômica)' ).
+*      lr_column  ?= lr_columns->get_column( 'Assentos máximos (econômica' ).
+*      lr_column->set_long_text( 'Assentos ocupados (econômica)' ).
+*      lr_column  ?= lr_columns->get_column( 'SEATSMAX_F' ).
+*      lr_column->set_long_text( 'Assentos máximos (primeira classe)' ).
+*      lr_column  ?= lr_columns->get_column( 'SEATSOCC_F' ).
+*      lr_column->set_long_text( 'Assentos ocupados (primeira classe)' ).
+*      lr_column  ?= lr_columns->get_column( 'MULTIPLICADO' ).
+*      lr_column->set_long_text( 'MULTIPLICADO' ).
+*      lr_column  ?= lr_columns->get_column( 'APT_ORIGEM' ).
+*      lr_column->set_long_text( 'Aeroporto de origem' ).
+*      lr_column  ?= lr_columns->get_column( 'APT_DESTINO' ).
+*      lr_column->set_long_text( 'Aeroporto de destino' ).
+
+    CATCH  cx_salv_msg INTO cx_salv.
+      gr_msg = cx_salv->get_text( ).
+      message gr_msg type 'E'.
+    catch  cx_salv_not_found into cx_not_found.
+       gr_msg = cx_not_found->get_text( ).
+      message gr_msg type 'E'.
+  ENDTRY.
+
+  go_alv->display( ).
+
 
 ENDFORM.
