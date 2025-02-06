@@ -112,7 +112,7 @@ FORM zf_seleciona_dados.
     INTO TABLE @it_estrutura
     FROM spfli AS a
     INNER JOIN scarr AS b ON a~carrid = b~carrid
-    INNER JOIN sflight AS c ON a~carrid = c~carrid AND a~connid = c~connid
+    INNER JOIN sflight AS c ON a~carrid = c~carrid AND a~carrid = c~carrid
     WHERE a~countryfr IN @countr
       AND a~cityfrom IN @cityfrom
       AND c~fldate IN @fldate.
@@ -205,7 +205,7 @@ FORM zf_monta_alv_oo.
         IMPORTING
           r_salv_table = go_alv
         CHANGING
-          t_table      = it_estrutura ). "Internal Table
+          t_table      = it_estrutura ).
 
     CATCH cx_salv_msg.
       gr_msg = cx_salv->get_text( ).
@@ -213,11 +213,13 @@ FORM zf_monta_alv_oo.
   ENDTRY.
 
   TRY.
+
       lr_columns ?= go_alv->get_columns( ).
       lr_column  ?= lr_columns->get_column( 'MANDT' ).
       lr_column->set_long_text( 'MANDANTE' ).
-
-      lr_column  ?= lr_columns->get_column('CONNID').
+      lr_column  ?= lr_columns->get_column( 'CARRID' ).
+      lr_column->set_long_text( 'ID da companhia aérea' ).
+      lr_column  ?= lr_columns->get_column( 'CONNID' ).
       lr_column->set_long_text( 'ID do voo' ).
       lr_column  ?= lr_columns->get_column( 'COUNTRYFR' ).
       lr_column->set_long_text( 'País de origem' ).
@@ -262,19 +264,19 @@ FORM zf_monta_alv_oo.
       lr_column  ?= lr_columns->get_column( 'PAYMENTSUM' ).
       lr_column->set_long_text( 'Soma dos pagamentos' ).
       lr_column  ?= lr_columns->get_column( 'SEATSMAX_B' ).
-*      lr_column->set_long_text( 'Assentos máximos (econômica)' ).
-*      lr_column  ?= lr_columns->get_column( 'Assentos máximos (econômica' ).
-*      lr_column->set_long_text( 'Assentos ocupados (econômica)' ).
-*      lr_column  ?= lr_columns->get_column( 'SEATSMAX_F' ).
-*      lr_column->set_long_text( 'Assentos máximos (primeira classe)' ).
-*      lr_column  ?= lr_columns->get_column( 'SEATSOCC_F' ).
-*      lr_column->set_long_text( 'Assentos ocupados (primeira classe)' ).
-*      lr_column  ?= lr_columns->get_column( 'MULTIPLICADO' ).
-*      lr_column->set_long_text( 'MULTIPLICADO' ).
-*      lr_column  ?= lr_columns->get_column( 'APT_ORIGEM' ).
-*      lr_column->set_long_text( 'Aeroporto de origem' ).
-*      lr_column  ?= lr_columns->get_column( 'APT_DESTINO' ).
-*      lr_column->set_long_text( 'Aeroporto de destino' ).
+      lr_column->set_long_text( 'Assentos máximos (econômica)' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSOCC_B' ).
+      lr_column->set_long_text( 'Assentos ocupados (econômica)' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSMAX_F' ).
+      lr_column->set_long_text( 'Assentos máximos (primeira classe)' ).
+      lr_column  ?= lr_columns->get_column( 'SEATSOCC_F' ).
+      lr_column->set_long_text( 'Assentos ocupados (primeira classe)' ).
+      lr_column  ?= lr_columns->get_column( 'MULTIPLICADO' ).
+      lr_column->set_long_text( 'MULTIPLICADO' ).
+      lr_column  ?= lr_columns->get_column( 'APT_ORIGEM' ).
+      lr_column->set_long_text( 'Aeroporto de origem' ).
+      lr_column  ?= lr_columns->get_column( 'APT_DESTINO' ).
+      lr_column->set_long_text( 'Aeroporto de destino' ).
 
     CATCH  cx_salv_msg INTO cx_salv.
       gr_msg = cx_salv->get_text( ).
