@@ -15,9 +15,10 @@ DATA: it_estrutura TYPE TABLE OF ty_estrutura,
       wa_estrutura TYPE ty_estrutura.
 
 START-OF-SELECTION.
-
+DELETE from ztab.
 select mandt, carrid, connid INTO TABLE @it_estrutura
-  FROM spfli.
+  FROM spfli
+  where connid = '0555'.
 
   LOOP AT it_estrutura into wa_estrutura.
     INSERT into ztab values wa_estrutura.
