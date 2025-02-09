@@ -158,37 +158,37 @@ FORM zf_monta_fieldcat USING i_fieldname TYPE c
 ENDFORM.
 FORM zf_monta_alv_original.
 
-  PERFORM zf_monta_fieldcat USING 'MANDT' 'Cliente'.
-  PERFORM zf_monta_fieldcat USING 'CARRID' 'ID da companhia áerea'.
-  PERFORM zf_monta_fieldcat USING 'CONNID' 'ID do voo'.
-  PERFORM zf_monta_fieldcat USING 'COUNTRYFR' 'País de origem'.
-  PERFORM zf_monta_fieldcat USING 'CITYFROM' 'Cidade de origem'.
-  PERFORM zf_monta_fieldcat USING 'AIRPFROM' 'Aeroporto de origem'.
-  PERFORM zf_monta_fieldcat USING 'COUNTRYTO' 'País de destino'.
-  PERFORM zf_monta_fieldcat USING 'CITYTO' 'Cidade de destino'.
-  PERFORM zf_monta_fieldcat USING 'AIRPTO' 'Aeroporto de destino'.
-  PERFORM zf_monta_fieldcat USING 'FLTIME' 'Tempo de voo'.
-  PERFORM zf_monta_fieldcat USING 'DEPTIME' 'Hora de partida'.
-  PERFORM zf_monta_fieldcat USING 'ARRTIME' 'Hora de chegada'.
-  PERFORM zf_monta_fieldcat USING 'DISTANCE' 'Distância'.
-  PERFORM zf_monta_fieldcat USING 'DISTID' 'Unidade de medida'.
-  PERFORM zf_monta_fieldcat USING 'FLTYPE' 'Tipo de voo'.
-  PERFORM zf_monta_fieldcat USING 'PERIOD' 'Período do voo'.
-  PERFORM zf_monta_fieldcat USING 'CARRNAME' 'Nome da companhia aérea'.
-  PERFORM zf_monta_fieldcat USING 'FLDATE' 'Data do voo'.
-  PERFORM zf_monta_fieldcat USING 'PRICE' 'Preço'.
-  PERFORM zf_monta_fieldcat USING 'CURRENCY' 'Moeda'.
-  PERFORM zf_monta_fieldcat USING 'PLANETYPE' 'Tipo de aeronave'.
-  PERFORM zf_monta_fieldcat USING 'SEATSMAX' 'Assentos máximos'.
-  PERFORM zf_monta_fieldcat USING 'SEATSOCC' 'Assentos ocupados'.
-  PERFORM zf_monta_fieldcat USING 'PAYMENTSUM' 'Soma dos pagamentos'.
-  PERFORM zf_monta_fieldcat USING 'SEATSMAX_B' 'Assentos máximos (econômica'.
-  PERFORM zf_monta_fieldcat USING 'SEATSOCC_B' 'Assentos ocupados (econômica)'.
-  PERFORM zf_monta_fieldcat USING 'SEATSMAX_F' 'Assentos máximos (primeira classe)'.
-  PERFORM zf_monta_fieldcat USING 'SEATSOCC_F' 'Assentos ocupados (primeira classe)'.
-  PERFORM zf_monta_fieldcat USING 'MULTIPLICADO' 'MULTIPLICADO'.
-  PERFORM zf_monta_fieldcat USING 'APT_ORIGEM' 'Aeroporto de origem'.
-  PERFORM zf_monta_fieldcat USING 'APT_DESTINO' 'Aeroporto de destino'.
+*  PERFORM zf_monta_fieldcat USING 'MANDT' 'Cliente'.
+*  PERFORM zf_monta_fieldcat USING 'CARRID' 'ID da companhia áerea'.
+*  PERFORM zf_monta_fieldcat USING 'CONNID' 'ID do voo'.
+*  PERFORM zf_monta_fieldcat USING 'COUNTRYFR' 'País de origem'.
+*  PERFORM zf_monta_fieldcat USING 'CITYFROM' 'Cidade de origem'.
+*  PERFORM zf_monta_fieldcat USING 'AIRPFROM' 'Aeroporto de origem'.
+*  PERFORM zf_monta_fieldcat USING 'COUNTRYTO' 'País de destino'.
+*  PERFORM zf_monta_fieldcat USING 'CITYTO' 'Cidade de destino'.
+*  PERFORM zf_monta_fieldcat USING 'AIRPTO' 'Aeroporto de destino'.
+*  PERFORM zf_monta_fieldcat USING 'FLTIME' 'Tempo de voo'.
+*  PERFORM zf_monta_fieldcat USING 'DEPTIME' 'Hora de partida'.
+*  PERFORM zf_monta_fieldcat USING 'ARRTIME' 'Hora de chegada'.
+*  PERFORM zf_monta_fieldcat USING 'DISTANCE' 'Distância'.
+*  PERFORM zf_monta_fieldcat USING 'DISTID' 'Unidade de medida'.
+*  PERFORM zf_monta_fieldcat USING 'FLTYPE' 'Tipo de voo'.
+*  PERFORM zf_monta_fieldcat USING 'PERIOD' 'Período do voo'.
+*  PERFORM zf_monta_fieldcat USING 'CARRNAME' 'Nome da companhia aérea'.
+*  PERFORM zf_monta_fieldcat USING 'FLDATE' 'Data do voo'.
+*  PERFORM zf_monta_fieldcat USING 'PRICE' 'Preço'.
+*  PERFORM zf_monta_fieldcat USING 'CURRENCY' 'Moeda'.
+*  PERFORM zf_monta_fieldcat USING 'PLANETYPE' 'Tipo de aeronave'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSMAX' 'Assentos máximos'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSOCC' 'Assentos ocupados'.
+*  PERFORM zf_monta_fieldcat USING 'PAYMENTSUM' 'Soma dos pagamentos'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSMAX_B' 'Assentos máximos (econômica'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSOCC_B' 'Assentos ocupados (econômica)'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSMAX_F' 'Assentos máximos (primeira classe)'.
+*  PERFORM zf_monta_fieldcat USING 'SEATSOCC_F' 'Assentos ocupados (primeira classe)'.
+*  PERFORM zf_monta_fieldcat USING 'MULTIPLICADO' 'MULTIPLICADO'.
+*  PERFORM zf_monta_fieldcat USING 'APT_ORIGEM' 'Aeroporto de origem'.
+*  PERFORM zf_monta_fieldcat USING 'APT_DESTINO' 'Aeroporto de destino'.
 
   CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
     EXPORTING
